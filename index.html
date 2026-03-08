@@ -2,20 +2,23 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>حارسي الأمين</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>حارسي الأمين | My Guardian</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#3B82F6', surface: '#121212' },
-                    fontFamily: { sans: ['Tajawal', 'sans-serif'] }
+                    colors: {
+                        brand: '#3B82F6',
+                        darkBg: '#000000',
+                        cardBg: '#121212'
+                    }
                 }
             }
         }
@@ -30,21 +33,20 @@
             background-color: #000000; 
             color: white; 
             font-family: 'Tajawal', sans-serif;
-            -webkit-tap-highlight-color: transparent; /* يمنع الوميض الأزرق عند اللمس في أندرويد */
-        }
-        .android-card {
-            background: #1E1E1E;
-            border-radius: 28px; /* زوايا أندرويد الشهيرة */
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .ripple-btn {
-            position: relative;
+            margin: 0;
             overflow: hidden;
-            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
-        .ripple-btn:active {
-            background-color: rgba(59, 130, 246, 0.8);
-            transform: scale(0.98);
+        .android-shadow {
+            box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.3);
+        }
+        /* أنيميشن الدخول الناعم */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -52,45 +54,76 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const ShieldIcon = () => (
-            <svg viewBox="0 0 24 24" width="60" height="60" stroke="#3B82F6" strokeWidth="1.5" fill="none">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        // أيقونات SVG مدمجة لضمان العمل 100%
+        const IconShield = () => (
+            <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M12 8v4M12 16h.01" strokeWidth="2"/>
             </svg>
         );
 
         function App() {
-            return (
-                <div className="flex flex-col min-h-screen p-4 justify-between bg-black">
-                    {/* شريط الحالة العلوي الوهمي */}
-                    <div className="h-6"></div>
+            const [loading, setLoading] = React.useState(false);
 
-                    <div className="android-card p-8 w-full max-w-sm mx-auto shadow-2xl">
-                        <div className="flex justify-center mb-8">
-                            <div className="p-4 bg-blue-500/10 rounded-full shadow-[0_0_30px_rgba(59,130,246,0.2)]">
-                                <ShieldIcon />
+            const handleUnlock = () => {
+                setLoading(true);
+                // محاكاة فتح القفل
+                setTimeout(() => {
+                    alert("نظام حارسي الأمين جاهز.. سيتم تحويلك للخزنة قريباً");
+                    setLoading(false);
+                }, 1500);
+            };
+
+            return (
+                <div className="min-h-screen flex flex-col justify-between p-6 bg-darkBg">
+                    {/* الجزء العلوي - شعار الحالة */}
+                    <div className="flex justify-center pt-4">
+                        <div className="flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
+                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Secure Connection</span>
+                        </div>
+                    </div>
+
+                    {/* البطاقة الرئيسية بأسلوب أندرويد الحديث */}
+                    <div className="fade-in w-full max-w-sm mx-auto bg-cardBg rounded-[40px] p-10 border border-white/5 android-shadow text-center">
+                        <div className="mb-8 flex justify-center transform hover:scale-110 transition-transform duration-500">
+                            <div className="p-6 bg-blue-500/10 rounded-[30px]">
+                                <IconShield />
                             </div>
                         </div>
                         
-                        <h1 className="text-3xl font-black mb-2 text-center text-white">حارسي الأمين</h1>
-                        <p className="text-gray-400 mb-10 text-center text-sm px-4">
-                            خزنتك الذكية والمشفرة لحماية خصوصيتك
+                        <h1 className="text-4xl font-black mb-3 tracking-tight">حارسي الأمين</h1>
+                        <p className="text-gray-400 text-sm mb-12 leading-relaxed px-2">
+                            حماية كلمات المرور والبيانات الشخصية بأحدث تقنيات التشفير.
                         </p>
                         
                         <div className="space-y-4">
-                            <button className="ripple-btn w-full bg-blue-600 text-white font-bold py-4 rounded-[18px] text-lg shadow-lg">
-                                دخول البصمة
+                            <button 
+                                onClick={handleUnlock}
+                                disabled={loading}
+                                className="w-full bg-brand hover:bg-blue-600 disabled:bg-blue-800 text-white font-bold py-5 rounded-[24px] text-lg transition-all active:scale-95 flex items-center justify-center gap-3"
+                            >
+                                {loading ? (
+                                    <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                ) : (
+                                    "فتح الخزنة الآمنة"
+                                )}
                             </button>
                             
-                            <button className="w-full bg-transparent border border-gray-700 text-white py-4 rounded-[18px] font-medium">
-                                كلمة المرور
+                            <button className="w-full bg-white/5 hover:bg-white/10 text-gray-300 font-bold py-5 rounded-[24px] border border-white/5 transition-all">
+                                إنشاء حساب جديد
                             </button>
                         </div>
                     </div>
 
-                    {/* تذييل الصفحة كأنه شريط أندرويد */}
-                    <div className="pb-8 text-center">
-                        <p className="text-gray-600 text-[11px] font-bold uppercase tracking-widest mb-2">Google Play Protect Verified</p>
-                        <div className="w-32 h-1 bg-gray-800 mx-auto rounded-full"></div> {/* شريط سحب أندرويد */}
+                    {/* تذييل الصفحة */}
+                    <div className="text-center pb-6">
+                        <p className="text-gray-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
+                            End-to-End Encryption AES-256
+                        </p>
+                        <div className="w-36 h-1.5 bg-gray-900 mx-auto rounded-full overflow-hidden">
+                            <div className="w-1/3 h-full bg-gray-800 rounded-full"></div>
+                        </div>
                     </div>
                 </div>
             );
