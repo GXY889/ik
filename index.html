@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+  <head>
+    <!-- 1. Charset MUST be first -->
+    <meta charset="UTF-8" />
+    
+    <!-- 2. FORCE HTTPS (Immediate Redirect) -->
+    <script>
+      if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
+        console.log('Forcing HTTPS...');
+        window.location.href = window.location.href.replace('http:', 'https:');
+      }
+    </script>
+
+    <!-- 3. Viewport & SEO -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>حارسي الأمين (My Guardian)</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- 4. PWA & Security Meta -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="application-name" content="حارسي الأمين">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="حارسي الأمين (My Guardian)" />
+    <meta property="og:description" content="خزنة كلمات المرور الآمنة وتطبيق الحماية الشخصي." />
+    <meta property="og:type" content="website" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="https://ui-avatars.com/api/?name=MG&background=0A84FF&color=fff&size=64&rounded=true&bold=true" />
+    <link rel="apple-touch-icon" href="https://ui-avatars.com/api/?name=MG&background=0A84FF&color=fff&size=180&rounded=true&bold=true">
+    <link rel="manifest" href="manifest.json" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: '#0A84FF',
+              secondary: '#1C1C1E',
+              surface: '#2C2C2E',
+              midnight: '#000000',
+            },
+            fontFamily: {
+              sans: ['Tajawal', 'sans-serif'],
+              mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+            },
+            animation: {
+              shake: 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both',
+              'fade-in-up': 'fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards', // Faster & Smoother curve
+            },
+            keyframes: {
+              shake: {
+                '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translate3d(0, 15px, 0)' }, // Hardware accelerated
+                '100%': { opacity: '1', transform: 'translate3d(0, 0, 0)' },
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      /* HIGH PERFORMANCE CSS FOR 120FPS FEEL */
+      * {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+      }
+      
+      body {
+        background-color: #000000;
+        color: white;
+        -webkit-tap-highlight-color: transparent;
+        font-family: 'Tajawal', sans-serif;
+        overscroll-behavior-y: none;
+        
+        /* Force Hardware Acceleration on Body */
+        transform: translate3d(0, 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
+      /* Optimized Scrolling */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { 
+        -ms-overflow-style: none; 
+        scrollbar-width: none; 
+        -webkit-overflow-scrolling: touch; /* Momentum scrolling */
+      }
+      
+      .glass-panel {
+        background: rgba(28, 28, 30, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Promote glass panels to own layer */
+        will-change: transform, backdrop-filter;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.1/",
+    "react/": "https://esm.sh/react@^19.2.1/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.33.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.560.0"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
+    <script>
+      // Force SW update check on load
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').then(reg => {
+            reg.update();
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
