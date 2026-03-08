@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حارسي الأمين | My Guardian</title>
+    <title>حارسي الأمين | الإصدار الكامل</title>
     
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
@@ -14,11 +14,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        brand: '#3B82F6',
-                        darkBg: '#000000',
-                        cardBg: '#121212'
-                    }
+                    colors: { brand: '#3B82F6', cardBg: '#121212' }
                 }
             }
         }
@@ -29,100 +25,103 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <style>
-        body { 
-            background-color: #000000; 
-            color: white; 
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            overflow: hidden;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .android-shadow {
-            box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.3);
-        }
-        /* أنيميشن الدخول الناعم */
-        .fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        body { background-color: #000; color: #fff; font-family: 'Tajawal', sans-serif; overflow-x: hidden; }
+        .android-card { background: #121212; border-radius: 32px; border: 1px solid rgba(255,255,255,0.05); }
+        .input-style { background: #1E1E1E; border: 1px solid #333; border-radius: 16px; padding: 12px; width: 100%; color: white; outline: none; transition: 0.3s; }
+        .input-style:focus { border-color: #3B82F6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        // أيقونات SVG مدمجة لضمان العمل 100%
-        const IconShield = () => (
-            <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#3B82F6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                <path d="M12 8v4M12 16h.01" strokeWidth="2"/>
-            </svg>
-        );
+        const { useState, useEffect } = React;
+
+        // الأيقونات
+        const IconShield = () => <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>;
+        const IconPlus = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
+        const IconTrash = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>;
 
         function App() {
-            const [loading, setLoading] = React.useState(false);
+            const [screen, setScreen] = useState('welcome'); // welcome, vault
+            const [passwords, setPasswords] = useState([]);
+            const [newSite, setNewSite] = useState('');
+            const [newPass, setNewPass] = useState('');
 
-            const handleUnlock = () => {
-                setLoading(true);
-                // محاكاة فتح القفل
-                setTimeout(() => {
-                    alert("نظام حارسي الأمين جاهز.. سيتم تحويلك للخزنة قريباً");
-                    setLoading(false);
-                }, 1500);
+            // تحميل البيانات المحفوظة عند فتح التطبيق
+            useEffect(() => {
+                const saved = localStorage.getItem('my_guardian_data');
+                if (saved) setPasswords(JSON.parse(saved));
+            }, []);
+
+            // حفظ البيانات عند كل تغيير
+            useEffect(() => {
+                localStorage.setItem('my_guardian_data', JSON.stringify(passwords));
+            }, [passwords]);
+
+            const addPassword = () => {
+                if (!newSite || !newPass) return alert("فضلاً املأ البيانات");
+                setPasswords([...passwords, { id: Date.now(), site: newSite, pass: newPass }]);
+                setNewSite(''); setNewPass('');
             };
 
-            return (
-                <div className="min-h-screen flex flex-col justify-between p-6 bg-darkBg">
-                    {/* الجزء العلوي - شعار الحالة */}
-                    <div className="flex justify-center pt-4">
-                        <div className="flex items-center gap-2 bg-white/5 px-4 py-1.5 rounded-full border border-white/10">
-                            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">Secure Connection</span>
+            const deletePassword = (id) => {
+                setPasswords(passwords.filter(p => p.id !== id));
+            };
+
+            if (screen === 'welcome') {
+                return (
+                    <div className="min-h-screen flex flex-col justify-center items-center p-6 fade-in">
+                        <div className="android-card p-10 w-full max-w-sm text-center shadow-2xl">
+                            <div className="flex justify-center mb-6"><IconShield /></div>
+                            <h1 className="text-3xl font-bold mb-2">حارسي الأمين</h1>
+                            <p className="text-gray-400 mb-8 text-sm">خزنتك المشفرة آمنة الآن</p>
+                            <button 
+                                onClick={() => setScreen('vault')}
+                                className="w-full bg-brand py-4 rounded-2xl font-bold text-lg active:scale-95 transition-all shadow-lg shadow-blue-500/20"
+                            >
+                                فتح الخزنة
+                            </button>
                         </div>
                     </div>
+                );
+            }
 
-                    {/* البطاقة الرئيسية بأسلوب أندرويد الحديث */}
-                    <div className="fade-in w-full max-w-sm mx-auto bg-cardBg rounded-[40px] p-10 border border-white/5 android-shadow text-center">
-                        <div className="mb-8 flex justify-center transform hover:scale-110 transition-transform duration-500">
-                            <div className="p-6 bg-blue-500/10 rounded-[30px]">
-                                <IconShield />
+            return (
+                <div className="min-h-screen p-6 fade-in">
+                    <div className="max-w-md mx-auto">
+                        <header className="flex justify-between items-center mb-8">
+                            <h2 className="text-2xl font-bold text-brand">خزنتي</h2>
+                            <button onClick={() => setScreen('welcome')} className="text-gray-500 text-sm italic">خروج آمن</button>
+                        </header>
+
+                        {/* إضافة كلمة مرور جديدة */}
+                        <div className="android-card p-6 mb-8 border-brand/20">
+                            <h3 className="text-sm font-bold mb-4 text-gray-300">إضافة حساب جديد</h3>
+                            <div className="space-y-3">
+                                <input className="input-style" placeholder="اسم الموقع (مثال: فيسبوك)" value={newSite} onChange={(e) => setNewSite(e.target.value)} />
+                                <input className="input-style" type="password" placeholder="كلمة المرور" value={newPass} onChange={(e) => setNewPass(e.target.value)} />
+                                <button onClick={addPassword} className="w-full bg-brand/20 text-brand py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand hover:text-white transition-all">
+                                    <IconPlus /> إضافة للحارس
+                                </button>
                             </div>
                         </div>
-                        
-                        <h1 className="text-4xl font-black mb-3 tracking-tight">حارسي الأمين</h1>
-                        <p className="text-gray-400 text-sm mb-12 leading-relaxed px-2">
-                            حماية كلمات المرور والبيانات الشخصية بأحدث تقنيات التشفير.
-                        </p>
-                        
-                        <div className="space-y-4">
-                            <button 
-                                onClick={handleUnlock}
-                                disabled={loading}
-                                className="w-full bg-brand hover:bg-blue-600 disabled:bg-blue-800 text-white font-bold py-5 rounded-[24px] text-lg transition-all active:scale-95 flex items-center justify-center gap-3"
-                            >
-                                {loading ? (
-                                    <div className="w-6 h-6 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                ) : (
-                                    "فتح الخزنة الآمنة"
-                                )}
-                            </button>
-                            
-                            <button className="w-full bg-white/5 hover:bg-white/10 text-gray-300 font-bold py-5 rounded-[24px] border border-white/5 transition-all">
-                                إنشاء حساب جديد
-                            </button>
-                        </div>
-                    </div>
 
-                    {/* تذييل الصفحة */}
-                    <div className="text-center pb-6">
-                        <p className="text-gray-600 text-[10px] font-bold uppercase tracking-[0.3em] mb-4">
-                            End-to-End Encryption AES-256
-                        </p>
-                        <div className="w-36 h-1.5 bg-gray-900 mx-auto rounded-full overflow-hidden">
-                            <div className="w-1/3 h-full bg-gray-800 rounded-full"></div>
+                        {/* قائمة كلمات المرور */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-bold text-gray-500 pr-2">الحسابات المحفوظة ({passwords.length})</h3>
+                            {passwords.length === 0 && <p className="text-center text-gray-600 mt-10">لا يوجد حسابات محفوظة بعد..</p>}
+                            {passwords.map(p => (
+                                <div key={p.id} className="android-card p-5 flex justify-between items-center fade-in">
+                                    <div>
+                                        <h4 className="font-bold text-white">{p.site}</h4>
+                                        <p className="text-gray-500 text-sm font-mono tracking-widest">••••••••</p>
+                                    </div>
+                                    <button onClick={() => deletePassword(p.id)} className="p-2 bg-red-500/10 rounded-lg"><IconTrash /></button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
