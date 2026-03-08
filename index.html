@@ -127,10 +127,11 @@
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="./index.js"></script>
+    <script type="module" src="./index.tsx"></script>
     <script>
       // Force SW update check on load
       if ('serviceWorker' in navigator) {
@@ -141,5 +142,6 @@
         });
       }
     </script>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>
