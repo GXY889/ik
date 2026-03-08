@@ -2,33 +2,29 @@
 <html lang="ar" dir="rtl" class="dark">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>حارسي الأمين (My Guardian)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        primary: '#0A84FF',
-                        secondary: '#1C1C1E',
-                        surface: '#2C2C2E',
-                        midnight: '#000000',
-                    },
-                    fontFamily: { sans: ['Tajawal', 'sans-serif'] }
+                    colors: { primary: '#0A84FF', midnight: '#000000' }
                 }
             }
         }
     </script>
 
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { background-color: #000000; color: white; font-family: 'Tajawal', sans-serif; overflow-x: hidden; }
+        body { background-color: #000000; color: white; font-family: 'Tajawal', sans-serif; }
         .glass-panel {
             background: rgba(28, 28, 30, 0.65);
             backdrop-filter: blur(20px);
@@ -36,19 +32,39 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
-
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@19.0.0",
-        "react-dom": "https://esm.sh/react-dom@19.0.0/client",
-        "lucide-react": "https://esm.sh/lucide-react@0.460.0"
-      }
-    }
-    </script>
 </head>
 <body>
     <div id="root"></div>
-    <script type="text/babel" data-type="module" src="./index.js"></script>
+
+    <script type="text/babel">
+        const { Shield, Lock, ShieldCheck } = lucide;
+
+        function App() {
+            return (
+                <div className="min-h-screen flex flex-col items-center justify-center p-6">
+                    <div className="glass-panel p-10 rounded-[2rem] max-w-sm w-full text-center shadow-2xl border-primary/20">
+                        <div className="bg-primary/10 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <Shield className="text-primary w-12 h-12" />
+                        </div>
+                        
+                        <h1 className="text-3xl font-extrabold mb-2 text-white">حارسي الأمين</h1>
+                        <p className="text-gray-400 mb-8 text-sm">خزنة كلمات المرور الشخصية الآمنة</p>
+                        
+                        <div className="space-y-3">
+                            <button className="w-full bg-primary hover:bg-blue-600 text-white font-bold py-4 rounded-xl transition-all active:scale-95">
+                                فتح الخزنة
+                            </button>
+                            <button className="w-full bg-white/5 hover:bg-white/10 text-white py-4 rounded-xl transition-all">
+                                فحص الأمان
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
