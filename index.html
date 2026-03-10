@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حارسي الأمين | الإصدار النهائي</title>
+    <title>حارسي الأمين | تحديث الكوبالت</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,7 +44,7 @@
             const [videoUrl, setVideoUrl] = useState('');
 
             useEffect(() => {
-                const data = localStorage.getItem('guard_final_v5');
+                const data = localStorage.getItem('guard_final_v6');
                 if (data) setPasswords(JSON.parse(data));
             }, []);
 
@@ -60,7 +60,7 @@
                 if(!form.site || !form.pass) return alert("عبّ البيانات يا بطل");
                 const newPasses = [{id:Date.now(), ...form}, ...passwords];
                 setPasswords(newPasses);
-                localStorage.setItem('guard_final_v5', JSON.stringify(newPasses));
+                localStorage.setItem('guard_final_v6', JSON.stringify(newPasses));
                 setForm({site:'', email:'', pass:''});
             };
 
@@ -71,13 +71,7 @@
                             <div className="flex justify-center mb-6"><IconLock /></div>
                             <h1 className="text-3xl font-black mb-2 tracking-tighter">حارسي الأمين</h1>
                             <p className="text-gray-500 text-sm mb-10 font-medium">أثبت هويتك يا عبد الله</p>
-                            <input 
-                                className="input-android text-center mb-6" 
-                                placeholder="من المبرمج؟" 
-                                value={nameInput}
-                                onChange={e => setNameInput(e.target.value)}
-                                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-                            />
+                            <input className="input-android text-center mb-6" placeholder="من المبرمج؟" value={nameInput} onChange={e => setNameInput(e.target.value)} onKeyPress={(e) => e.key === 'Enter' && handleLogin()}/>
                             <button onClick={handleLogin} className="w-full bg-brand py-5 rounded-[22px] font-black text-lg active:scale-95 transition-all shadow-lg shadow-brand/20">دخول</button>
                         </div>
                     </div>
@@ -93,26 +87,17 @@
                                     <h1 className="text-3xl font-black text-brand tracking-tighter">أهلاً يا عبد الله 👋</h1>
                                     <button onClick={()=>setIsLoggedIn(false)} className="bg-white/5 px-4 py-2 rounded-full text-[10px] text-gray-400">خروج</button>
                                 </header>
-                                
-                                <div className="bg-[#111] p-6 rounded-[28px] border border-white/10 space-y-4 shadow-xl">
-                                    <input className="input-android" placeholder="الموقع (انستقرام، تيك توك..)" value={form.site} onChange={e=>setForm({...form, site:e.target.value})} />
+                                <div className="bg-[#111] p-6 rounded-[28px] border border-white/10 space-y-4">
+                                    <input className="input-android" placeholder="الموقع" value={form.site} onChange={e=>setForm({...form, site:e.target.value})} />
                                     <input className="input-android" placeholder="الإيميل / اليوزر" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} />
                                     <input className="input-android" type="password" placeholder="كلمة المرور" value={form.pass} onChange={e=>setForm({...form, pass:e.target.value})} />
-                                    <button onClick={savePass} className="w-full bg-brand py-4 rounded-2xl font-black shadow-lg shadow-brand/20 active:scale-95 transition-all">حفظ في الخزنة</button>
+                                    <button onClick={savePass} className="w-full bg-brand py-4 rounded-2xl font-black active:scale-95">حفظ البيانات</button>
                                 </div>
-
                                 <div className="space-y-3">
-                                    <h3 className="text-xs font-bold text-gray-500 px-2">الحسابات المحفوظة</h3>
                                     {passwords.map(p => (
                                         <div key={p.id} className="bg-[#111] p-5 rounded-2xl flex justify-between items-center border border-white/5">
-                                            <div>
-                                                <p className="font-black text-blue-400">{p.site}</p>
-                                                <p className="text-[11px] text-gray-500">{p.email}</p>
-                                            </div>
-                                            <button onClick={()=> {
-                                                navigator.clipboard.writeText(p.pass);
-                                                alert("تم النسخ!");
-                                            }} className="bg-white/5 px-5 py-2 rounded-xl text-xs font-bold active:bg-white/10">نسخ</button>
+                                            <div><p className="font-black text-blue-400">{p.site}</p><p className="text-[11px] text-gray-500">{p.email}</p></div>
+                                            <button onClick={()=> {navigator.clipboard.writeText(p.pass); alert("تم النسخ!");}} className="bg-white/5 px-5 py-2 rounded-xl text-xs font-bold">نسخ</button>
                                         </div>
                                     ))}
                                 </div>
@@ -120,32 +105,28 @@
                         ) : (
                             <div className="pt-12 text-center space-y-8 fade-in px-4">
                                 <div className="text-yt animate-bounce flex justify-center"><IconVideo /></div>
-                                <h2 className="text-2xl font-black">المحمل السريع</h2>
-                                <p className="text-gray-400 text-xs px-6 leading-relaxed italic">نصيحة: الصق الرابط واضغط الزر، إذا فتحت صفحة إعلانات ارجع واضغط مرة ثانية.</p>
+                                <h2 className="text-2xl font-black">المحمل الخارق (Cobalt) ⚡</h2>
+                                <p className="text-gray-400 text-xs px-6">هذا السيرفر ما يعرف كلمة "مستحيل". الصق الرابط واضغط الزر.</p>
                                 
                                 <div className="space-y-4">
-                                    <input className="input-android text-center border-yt/10" placeholder="الصق رابط المقطع هنا..." value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} />
+                                    <input className="input-android text-center" placeholder="الصق الرابط هنا..." value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} />
                                     <div className="grid grid-cols-1 gap-4">
-                                        <button onClick={()=>window.open(`https://snapsave.io/ar?url=${encodeURIComponent(videoUrl)}`, '_blank')} className="w-full bg-yt py-5 rounded-[25px] font-black text-lg shadow-xl shadow-yt/30 active:scale-95 transition-all">🔥 سيرفر Snap (الأقوى)</button>
-                                        <button onClick={()=>window.open(`https://en.savefrom.net/1-youtube-video-downloader-360.html?url=${encodeURIComponent(videoUrl)}`, '_blank')} className="w-full bg-green-600 py-4 rounded-2xl font-bold active:scale-95">سيرفر 2 (SaveFrom)</button>
+                                        <button onClick={()=>window.open(`https://cobalt.tools/`, '_blank')} className="w-full bg-brand py-5 rounded-[25px] font-black text-lg shadow-xl shadow-brand/30 active:scale-95 transition-all">🚀 افتح Cobalt (الأقوى عالمياً)</button>
+                                        <button onClick={()=>window.open(`https://pastedownload.com/28/`, '_blank')} className="w-full bg-white/10 py-4 rounded-2xl font-bold active:scale-95">سيرفر احتياطي (Paste)</button>
                                     </div>
-                                </div>
-                                <div className="bg-white/5 p-4 rounded-2xl text-[10px] text-gray-500 tracking-widest leading-loose">
-                                    نظام حماية عبد الله • 2026<br/>تشفير بيانات المستخدم نشط
+                                    <div className="bg-blue-900/20 p-4 rounded-2xl text-[11px] text-blue-300 text-right leading-relaxed border border-blue-500/20">
+                                        📌 <strong>طريقة الكوبالت:</strong><br/>
+                                        1. اضغط الزر الأزرق.<br/>
+                                        2. الصق الرابط في المربع هناك.<br/>
+                                        3. اضغط السهم الأزرق وحمل مباشرة بدون إعلانات!
+                                    </div>
                                 </div>
                             </div>
                         )}
                     </div>
-
                     <nav className="nav-bar">
-                        <div onClick={() => setTab('vault')} className={`nav-item ${tab === 'vault' ? 'active' : ''}`}>
-                            <IconVault />
-                            <span className="mt-1">الخزنة</span>
-                        </div>
-                        <div onClick={() => setTab('video')} className={`nav-item ${tab === 'video' ? 'active-yt' : ''}`}>
-                            <IconVideo />
-                            <span className="mt-1">المحمل</span>
-                        </div>
+                        <div onClick={() => setTab('vault')} className={`nav-item ${tab === 'vault' ? 'active' : ''}`}><IconVault /><span className="mt-1">الخزنة</span></div>
+                        <div onClick={() => setTab('video')} className={`nav-item ${tab === 'video' ? 'active-yt' : ''}`}><IconVideo /><span className="mt-1">المحمل</span></div>
                     </nav>
                 </div>
             );
