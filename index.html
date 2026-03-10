@@ -3,20 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حارسي الأمين | الإصدار الخاص بعبد الله</title>
+    <title>حارسي الأمين | نسخة عبد الله الماجد</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { brand: '#3B82F6', yt: '#FF0000', surface: '#121212' }
-                }
-            }
-        }
-    </script>
-
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -57,7 +47,6 @@
             }, []);
 
             const handleLogin = () => {
-                // شرط تسجيل الدخول: لازم يكتب "عبد الله"
                 if (nameInput.trim() === 'عبد الله' || nameInput.trim() === 'عبدالله') {
                     setIsLoggedIn(true);
                 } else {
@@ -74,18 +63,18 @@
 
             if (!isLoggedIn) {
                 return (
-                    <div className="h-screen flex flex-col justify-center items-center p-8 fade-in">
+                    <div className="h-screen flex flex-col justify-center items-center p-8 fade-in bg-black">
                         <div className="bg-surface p-8 rounded-[32px] w-full max-w-sm text-center border border-white/5 shadow-2xl">
                             <div className="flex justify-center mb-6"><IconLock /></div>
-                            <h1 className="text-2xl font-black mb-2">حارسي الأمين</h1>
-                            <p className="text-gray-500 text-sm mb-8 font-medium italic">أثبت هويتك للدخول</p>
+                            <h1 className="text-2xl font-black mb-2 tracking-tighter">حارسي الأمين</h1>
+                            <p className="text-gray-500 text-sm mb-8 font-medium">أدخل اسمك للدخول</p>
                             <input 
                                 className="input-android text-center mb-4" 
-                                placeholder="من أنت؟" 
+                                placeholder="من المبرمج؟" 
                                 value={nameInput}
                                 onChange={e => setNameInput(e.target.value)}
                             />
-                            <button onClick={handleLogin} className="w-full bg-brand py-4 rounded-2xl font-black active:scale-95 transition-all">دخول</button>
+                            <button onClick={handleLogin} className="w-full bg-brand py-4 rounded-2xl font-black active:scale-95 transition-all">تأكيد الهوية</button>
                         </div>
                     </div>
                 );
@@ -100,28 +89,33 @@
                                     <h1 className="text-3xl font-black text-brand tracking-tighter">أهلاً يا عبد الله 👋</h1>
                                     <button onClick={()=>setIsLoggedIn(false)} className="text-[10px] bg-white/5 px-3 py-1 rounded-full opacity-50">خروج</button>
                                 </header>
-                                <div className="bg-surface p-5 rounded-[24px] border border-white/5 space-y-3">
-                                    <input className="input-android" placeholder="اسم الموقع" value={form.site} onChange={e=>setForm({...form, site:e.target.value})} />
-                                    <input className="input-android" placeholder="الإيميل" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} />
+                                <div className="bg-surface p-5 rounded-[24px] border border-white/5 space-y-3 shadow-xl">
+                                    <input className="input-android" placeholder="الموقع (مثل: انستقرام)" value={form.site} onChange={e=>setForm({...form, site:e.target.value})} />
+                                    <input className="input-android" placeholder="الإيميل أو اليوزر" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} />
                                     <input className="input-android" type="password" placeholder="كلمة المرور" value={form.pass} onChange={e=>setForm({...form, pass:e.target.value})} />
-                                    <button onClick={savePass} className="w-full bg-brand py-4 rounded-xl font-bold active:scale-95">حفظ في الخزنة</button>
+                                    <button onClick={savePass} className="w-full bg-brand py-4 rounded-xl font-bold active:scale-95 transition-all">حفظ البيانات</button>
                                 </div>
                                 <div className="space-y-3">
                                     {passwords.map(p => (
                                         <div key={p.id} className="bg-surface p-4 rounded-2xl flex justify-between items-center border border-white/5 shadow-sm">
-                                            <div><p className="font-bold text-blue-400">{p.site}</p><p className="text-[10px] text-gray-500">{p.email}</p></div>
-                                            <button onClick={()=>navigator.clipboard.writeText(p.pass)} className="bg-white/5 px-4 py-2 rounded-lg text-xs font-bold">نسخ</button>
+                                            <div><p className="font-bold text-blue-400">{p.site}</p><p className="text-[10px] text-gray-500 tracking-wider">{p.email}</p></div>
+                                            <button onClick={()=>navigator.clipboard.writeText(p.pass)} className="bg-white/5 px-4 py-2 rounded-lg text-xs font-bold">نسخ الباسورد</button>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         ) : (
-                            <div className="pt-12 text-center space-y-8">
+                            <div className="pt-12 text-center space-y-8 fade-in px-4">
                                 <div className="text-yt animate-pulse flex justify-center"><IconVideo /></div>
-                                <h2 className="text-2xl font-black">المحمل السريع</h2>
+                                <h2 className="text-2xl font-black">المحمل المتعدد</h2>
+                                <p className="text-gray-400 text-xs px-6 leading-relaxed">إذا واجهت مشكلة في التحميل، جرب السيرفرات الاحتياطية بالأسفل</p>
                                 <div className="space-y-4">
-                                    <input className="input-android text-center" placeholder="الصق الرابط هنا..." value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} />
-                                    <button onClick={()=>window.open(`https://9xbuddy.com/process?url=${encodeURIComponent(videoUrl)}`, '_blank')} className="w-full bg-yt py-5 rounded-[24px] font-black shadow-lg shadow-yt/20 active:scale-95">تحميل المقطع</button>
+                                    <input className="input-android text-center border-yt/10" placeholder="الصق رابط المقطع هنا..." value={videoUrl} onChange={e=>setVideoUrl(e.target.value)} />
+                                    <div className="grid grid-cols-1 gap-3">
+                                        <button onClick={()=>window.open(`https://9xbuddy.com/process?url=${encodeURIComponent(videoUrl)}`, '_blank')} className="w-full bg-yt py-4 rounded-2xl font-bold shadow-lg shadow-yt/20 active:scale-95 transition-all">سيرفر 1 (رئيسي)</button>
+                                        <button onClick={()=>window.open(`https://en.savefrom.net/1-youtube-video-downloader-360.html?url=${encodeURIComponent(videoUrl)}`, '_blank')} className="w-full bg-green-600 py-4 rounded-2xl font-bold active:scale-95 transition-all">سيرفر 2 (قوي)</button>
+                                        <button onClick={()=>window.open(`https://www.y2mate.com/youtube/${videoUrl.split('v=')[1] || videoUrl.split('/').pop()}`, '_blank')} className="w-full bg-blue-600 py-4 rounded-2xl font-bold active:scale-95 transition-all">سيرفر 3 (سريع)</button>
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -139,53 +133,3 @@
     </script>
 </body>
 </html>
-// ... (نفس الكود السابق في الأعلى حتى نصل لقسم المحمل)
-
-                        ) : (
-                            <div className="pt-12 text-center space-y-8 fade-in px-4">
-                                <div className="text-yt animate-pulse flex justify-center"><IconVideo /></div>
-                                <h2 className="text-2xl font-black">المحمل المتعدد (الخطة ب)</h2>
-                                <p className="text-gray-500 text-xs px-6">إذا ما اشتغل السيرفر الأول، جرب السيرفرات الاحتياطية</p>
-                                
-                                <div className="space-y-4">
-                                    <input 
-                                        className="input-android text-center border-yt/20 focus:border-yt" 
-                                        placeholder="الصق الرابط هنا..." 
-                                        value={videoUrl} 
-                                        onChange={e=>setVideoUrl(e.target.value)} 
-                                    />
-                                    
-                                    <div className="grid grid-cols-1 gap-3">
-                                        {/* السيرفر الأول - 9xBuddy */}
-                                        <button 
-                                            onClick={()=>window.open(`https://9xbuddy.com/process?url=${encodeURIComponent(videoUrl)}`, '_blank')} 
-                                            className="w-full bg-yt py-4 rounded-2xl font-bold shadow-lg shadow-yt/20 active:scale-95 transition-all flex items-center justify-center gap-2"
-                                        >
-                                            🚀 سيرفر تحميل 1 (أساسي)
-                                        </button>
-
-                                        {/* السيرفر الثاني - SaveFrom (قوي جداً) */}
-                                        <button 
-                                            onClick={()=>window.open(`https://en.savefrom.net/1-youtube-video-downloader-360.html?url=${encodeURIComponent(videoUrl)}`, '_blank')} 
-                                            className="w-full bg-green-600 py-4 rounded-2xl font-bold shadow-lg shadow-green-600/20 active:scale-95 transition-all flex items-center justify-center gap-2"
-                                        >
-                                            ✅ سيرفر تحميل 2 (احتياطي)
-                                        </button>
-
-                                        {/* السيرفر الثالث - Y2Mate (بديل سريع) */}
-                                        <button 
-                                            onClick={()=>window.open(`https://www.y2mate.com/youtube/${videoUrl.split('v=')[1] || videoUrl.split('/').pop()}`, '_blank')} 
-                                            className="w-full bg-blue-600 py-4 rounded-2xl font-bold shadow-lg shadow-blue-600/20 active:scale-95 transition-all flex items-center justify-center gap-2"
-                                        >
-                                            ⚡ سيرفر تحميل 3 (سريع)
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="bg-white/5 p-4 rounded-2xl text-[10px] text-gray-400">
-                                    <p className="mb-2">💡 نصيحة المبرمج عبد الله:</p>
-                                    <p>تأكد إن الرابط يبدأ بـ https وليس فيه فراغات</p>
-                                </div>
-                            </div>
-                        )}
-// ... (بقية الكود)
